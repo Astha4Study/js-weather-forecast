@@ -5,7 +5,7 @@ const cuacaUtamaIcon = document.getElementById('cuaca-utama-icon');
 const cuacaUtamaTemp = document.getElementById('cuaca-utama-temp');
 const cuacaUtamaWind = document.getElementById('cuaca-utama-wind');
 const cuacaUtamahumidity = document.getElementById('cuaca-utama-humidity');
-const cuacaUtamaPressure = document.getElementById('cuaca-utama-pressure')
+const cuacaUtamaPressure = document.getElementById('cuaca-utama-pressure');
 
 const cuaca1Icon = document.getElementById('cuaca-1-icon');
 const cuaca1Temp = document.getElementById('cuaca-1-temp');
@@ -25,55 +25,51 @@ const cuaca3humidity = document.getElementById('cuaca-3-humidity');
 async function getWeather(city = 'purwokerto') {
     const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=d8b21c07ae373d57cedb303d944e393e&units=metric`;
 
-    return await fetch(url, {
-        method: 'GET',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response wan not ok ' + response.status.Text);
-            }
-            return response.json();
-        }).then((result) => {
-            const cuacaUtamaDate = new Date(result.list[0].dt * 1000)
-            console.log(cuacaUtamaDate.getHours());
-            cuacaUtamaIcon.src = getImage(result.list[0].weather[0].main);
-            cuacaUtamaTemp.innerText = result.list[0].main.temp + "°C"
-            cuacaUtamaWind.innerText = result.list[0].wind.speed + " km/hr";
-            cuacaUtamahumidity.innerText = result.list[0].main.humidity + "%";
-            cuacaUtamaPressure.innerText = result.list[0].main.pressure + " hPa"
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        const result = await response.json();
 
-            cuaca1Icon.src = getImage(result.list[1].weather[0].main);
-            cuaca1Temp.innerText = result.list[1].main.temp + "°C"
-            cuaca1Wind.innerText = result.list[1].wind.speed + " km/hr";
-            cuaca1humidity.innerText = result.list[1].main.humidity + "%";
+        // Update main weather display
+        cuacaUtamaIcon.src = getImage(result.list[0].weather[0].main);
+        cuacaUtamaTemp.innerText = result.list[0].main.temp + "°C";
+        cuacaUtamaWind.innerText = result.list[0].wind.speed + " km/hr";
+        cuacaUtamahumidity.innerText = result.list[0].main.humidity + "%";
+        cuacaUtamaPressure.innerText = result.list[0].main.pressure + " hPa";
 
-            cuaca2Icon.src = getImage(result.list[2].weather[0].main);
-            cuaca2Temp.innerText = result.list[2].main.temp + "°C"
-            cuaca2Wind.innerText = result.list[2].wind.speed + " km/hr";
-            cuaca2humidity.innerText = result.list[2].main.humidity + "%";
+        // Update hourly weather cards
+        updateHourlyWeather(result.list[1], cuaca1Icon, cuaca1Temp, cuaca1Wind, cuaca1humidity);
+        updateHourlyWeather(result.list[2], cuaca2Icon, cuaca2Temp, cuaca2Wind, cuaca2humidity);
+        updateHourlyWeather(result.list[3], cuaca3Icon, cuaca3Temp, cuaca3Wind, cuaca3humidity);
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+}
 
-            cuaca3Icon.src = getImage(result.list[3].weather[0].main);
-            cuaca3Temp.innerText = result.list[3].main.temp + "°C"
-            cuaca3Wind.innerText = result.list[3].wind.speed + " km/hr";
-            cuaca3humidity.innerText = result.list[3].main.humidity + "%";
-        });
+function updateHourlyWeather(data, iconElem, tempElem, windElem, humidityElem) {
+    iconElem.src = getImage(data.weather[0].main);
+    tempElem.innerText = data.main.temp + "°C";
+    windElem.innerText = data.wind.speed + " km/hr";
+    humidityElem.innerText = data.main.humidity + "%";
 }
 
 function getImage(weather) {
     let src = 'Image/clear.png';
     weather = weather.toLowerCase();
 
-    if (weather == 'clear') {
+    if (weather === 'clear') {
         src = 'Image/clear.png';
-    } else if (weather == 'clouds') {
+    } else if (weather === 'clouds') {
         src = 'Image/clouds.png';
-    } else if (weather == 'drizzle') {
+    } else if (weather === 'drizzle') {
         src = 'Image/drizzle.png';
-    } else if (weather == 'mist') {
+    } else if (weather === 'mist') {
         src = 'Image/mist.png';
-    } else if (weather == 'rain') {
+    } else if (weather === 'rain') {
         src = 'Image/rain.png';
-    } else if (weather == 'snow') {
+    } else if (weather === 'snow') {
         src = 'Image/snow.png';
     }
 
@@ -81,10 +77,14 @@ function getImage(weather) {
 }
 
 function getByCity() {
-    const lokasiValue = lokasi.value;
+    const lokasiValue = lokasi.value.trim();
+    if (lokasiValue === '') {
+        alert('Silakan masukkan nama kota.');
+        return;
+    }
     kota.innerText = lokasiValue;
-
-    getWeather(lokasiValue)
+    getWeather(lokasiValue);
 }
 
-getWeather()
+// Inisialisasi dengan cuaca default untuk Purwokerto
+getWeather();
