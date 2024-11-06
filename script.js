@@ -15,30 +15,34 @@ const dateText = document.querySelector('.current-date-txt');
 
 const forecastItemsContainer = document.querySelector('.forecast-items-container');
 
-const apiKey = '17f2815cfe147fc6a9e5692ed3e310a3';
+const apiKey = '17f2815cfe147fc6a9e5692ed3e310a3'; // Your unique API key to access real-time weather data from the Weather API
 
+// Event listener for search button click
 searchBtn.addEventListener('click', () => {
-    if (cityInput.value.trim() != '') {
-        updateWeatherInfo(cityInput.value); 
+    if (cityInput.value.trim() !== '') {
+        updateWeatherInfo(cityInput.value);
         cityInput.value = '';
         cityInput.blur();
     }
 });
 
+// Event listener for Enter key press
 cityInput.addEventListener('keydown', (event) => {
-    if (event.key == 'Enter' && cityInput.value.trim() != '') {
-        updateWeatherInfo(cityInput.value); 
+    if (event.key === 'Enter' && cityInput.value.trim() !== '') {
+        updateWeatherInfo(cityInput.value);
         cityInput.value = '';
         cityInput.blur();
     }
 });
 
+// Fetch data from the API
 async function getFetchData(endPoint, city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/${endPoint}?q=${city}&appid=${apiKey}&units=metric`;
     const response = await fetch(apiUrl);
     return response.json();
 }
 
+// Get weather icon based on condition id
 function getWeatherIcon(id) {
     if (id >= 200 && id <= 232) {
         return 'thunderstorm.svg';
@@ -57,6 +61,7 @@ function getWeatherIcon(id) {
     }
 }
 
+// Get current date formatted
 function getCurrentDate() {
     const currentDate = new Date();
     const options = {
@@ -67,13 +72,15 @@ function getCurrentDate() {
     return currentDate.toLocaleDateString('en-GB', options);
 }
 
+// Update weather information
 async function updateWeatherInfo(city) {
     const weatherData = await getFetchData('weather', city);
 
-    if (weatherData.cod != 200) {
+    if (weatherData.cod !== 200) {
         showDisplaySection(notFoundSection);
         return;
     }
+
     console.log(weatherData);
 
     const {
@@ -84,18 +91,19 @@ async function updateWeatherInfo(city) {
     } = weatherData;
 
     countryText.textContent = country;
-    tempText.textContent = Math.round(temp) + ' °C';
+    tempText.textContent = `${Math.round(temp)} °C`;
     conditionText.textContent = main;
-    humidityValueTxt.textContent = humidity + '%';
-    windValueTxt.textContent = speed + ' M/s';
+    humidityValueTxt.textContent = `${humidity}%`;
+    windValueTxt.textContent = `${speed} M/s`;
 
     dateText.textContent = getCurrentDate();
     weatherSummaryImg.src = `assets/weather/${getWeatherIcon(id)}`;
 
-    await updateForecastInfo(city); 
+    await updateForecastInfo(city);
     showDisplaySection(weatherInfoSection);
 }
 
+// Update forecast information
 async function updateForecastInfo(city) {
     const forecastData = await getFetchData('forecast', city);
 
@@ -110,12 +118,13 @@ async function updateForecastInfo(city) {
     });
 }
 
+// Update forecast items in the UI
 function updateForecastItems(weatherData) {
     const {
         dt_txt: date,
         weather: [{ id }],
         main: { temp }
-    } = weatherData
+    } = weatherData;
 
     const dateTaken = new Date(date);
     const dateOption = {
@@ -125,15 +134,16 @@ function updateForecastItems(weatherData) {
     const dateResult = dateTaken.toLocaleDateString('en-US', dateOption);
 
     const forecastItem = `
-    <div class="forecast-item">
-        <h5 class="forecast-item-date regular-txt">${dateResult}</h5>
-        <img src="assets/weather/${getWeatherIcon(id)}" class="forecast-item-img">
-        <h5 class="forecast-item-temp">${Math.round(temp)} °C</h5>
-    </div>
+        <div class="forecast-item">
+            <h5 class="forecast-item-date regular-txt">${dateResult}</h5>
+            <img src="assets/weather/${getWeatherIcon(id)}" class="forecast-item-img">
+            <h5 class="forecast-item-temp">${Math.round(temp)} °C</h5>
+        </div>
     `;
     forecastItemsContainer.insertAdjacentHTML('beforeend', forecastItem);
 }
 
+// Display the appropriate section based on the weather info or search state
 function showDisplaySection(section) {
     [weatherInfoSection, searchCitySection, notFoundSection]
         .forEach(sec => sec.style.display = 'none');

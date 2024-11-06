@@ -28,11 +28,13 @@ body::before {
     backdrop-filter: blur(15px);
 }
 
-/* UTILITIES */
+/* Utility */
+
 .regular-txt {
     font-weight: 400;
 }
-/* END UTILITIES */
+
+/* End Utility */
 
 .main-container {
     width: 300px;
@@ -46,7 +48,8 @@ body::before {
     padding: 20px;
 }
 
-/* INPUT CONTAINER */
+/* Input */
+
 .input-container {
     position: relative;
     margin-bottom: 25px;
@@ -83,9 +86,11 @@ body::before {
 .search-btn span {
     color: rgb(255, 255, 255, 0.75);
 }
-/* END INPUT CONTAINER */
 
-/* SECTION: WEATHER INFO */
+/* End of input*/
+
+/* Weather info */
+
 .weather-info {
     display: flex;
     flex-direction: column;
@@ -165,9 +170,11 @@ body::before {
     width: 35px;
     height: 35px;
 }
-/* END SECTION: WEATHER INFO */
 
-/* SECTION: MESSAGE */
+/* End Weather info */
+
+/* Message */
+
 .section-message {
     display: flex;
     flex-direction: column;
@@ -180,4 +187,5 @@ body::before {
     height: 180px;
     width: fit-content;
 }
-/* end SECTION: MESSAGE */
+
+/* End Message */
