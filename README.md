@@ -1,15 +1,15 @@
 # js-weather-forecast
 
-Aplikasi **js-weather-forecast** adalah aplikasi prediksi cuaca sederhana berbasis JavaScript yang menggunakan Weather API untuk menyediakan informasi cuaca real-time bagi pengguna. Aplikasi ini dapat menampilkan prakiraan cuaca harian, suhu, kelembapan, kecepatan angin, dan kondisi cuaca lainnya berdasarkan lokasi pengguna atau lokasi yang dicari.
+**js-weather-forecast** is a simple JavaScript-based weather forecasting app that uses the Weather API to provide real-time weather information for the upcoming days. This app allows users to view daily weather forecasts, temperatures, humidity levels, wind speed, and other weather conditions based on their current location or a location they search for.
 
-### Fitur
-- **Cuaca Real-Time**: Menampilkan kondisi cuaca saat ini berdasarkan data dari Weather API.
-- **Prakiraan Harian**: Menyediakan prakiraan cuaca untuk beberapa hari ke depan.
-- **Pencarian Lokasi**: Memungkinkan pengguna mencari cuaca di kota atau lokasi tertentu.
-- **Informasi Detil**: Menampilkan suhu, kelembapan, kecepatan angin, dan kondisi cuaca lainnya.
+### Features
+- **Real-Time Weather**: Displays current weather conditions based on data from the Weather API.
+- **Daily Forecast**: Provides weather forecasts for the upcoming days.
+- **Location Search**: Allows users to search for weather information by city or region.
+- **Detailed Information**: Shows temperature, humidity, wind speed, and other weather-related details.
 
-### Teknologi
-- **JavaScript (Vanilla)**: Logika utama aplikasi untuk pengambilan data dan tampilan cuaca.
-- **Weather API**: Digunakan untuk mendapatkan data cuaca real-time dan prakiraan cuaca.
+### Technologies
+- **Vanilla JavaScript**: The main logic of the app for fetching and displaying weather data.
+- **Weather API**: Used to retrieve real-time weather data and forecasts.
 
-Aplikasi ini cocok untuk belajar tentang integrasi API dan cara membuat aplikasi dinamis dengan JavaScript!
+Copyright: YouTube @CodeArry
