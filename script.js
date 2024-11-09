@@ -15,7 +15,7 @@ const dateText = document.querySelector('.current-date-txt');
 
 const forecastItemsContainer = document.querySelector('.forecast-items-container');
 
-const apiKey = '17f2815cfe147fc6a9e5692ed3e310a3'; // Your unique API key to access real-time weather data from the Weather API
+const apiKey = 'yourAPI'; // Your unique API key to access real-time weather data from the Weather API
 
 // Event listener for search button click
 searchBtn.addEventListener('click', () => {
